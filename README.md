@@ -1,4 +1,4 @@
-# Triumph Task Manager
+# Triumph Task Manager 
 
 A modern, responsive task management application built with HTML, CSS, and vanilla JavaScript.
 
