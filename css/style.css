@@ -364,12 +364,7 @@ body{
 
 }
 
-.task span{
 
-    flex:1;
-
-    margin-left:10px;
-}
 
 /* ==========================================
    Completed Task
@@ -624,41 +619,22 @@ body{
 
 @media(max-width:500px){
 
-    .todo-box{
+.todo-box{
 
-        padding:20px;
-    }
-
-    .input-box{
-
-        flex-direction:column;
-    }
-
-    .input-box button{
-
-        width:100%;
-
-        height:50px;
-    }
-
-
-
-
-
-    .task-filters {
-
-    gap: 5px;
-
+    padding:20px;
 }
 
-.filter-btn {
+.input-box{
 
-    font-size: 12px;
-
-    padding: 8px 6px;
-
+    flex-direction:column;
 }
 
+.input-box button{
+
+    width:100%;
+
+    height:50px;
+}
 
 
 
@@ -676,6 +652,7 @@ body{
 }
 
 .task-filters {
+    gap: 5px;
 
     margin-top: 12px;
 
@@ -688,13 +665,6 @@ body{
     font-size: 12px;
 
 }
-
-
-
-
-
-
-
 
 
 
