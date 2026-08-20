@@ -237,6 +237,8 @@ function openDeleteModal(taskId) {
 
     deleteModal.setAttribute("aria-hidden", "false");
 
+    cancelDelete.focus();
+
 }
 
 
@@ -422,6 +424,7 @@ saveEdit.addEventListener("click", function () {
         return;
     }
 
+    // Prevent empty task
     const newText = editTaskInput.value.trim();
 
     if (newText === "") {
@@ -433,6 +436,28 @@ saveEdit.addEventListener("click", function () {
         return;
 
     }
+
+
+    // Prevent duplicate tasks
+    const duplicateTask = tasks.some(function (task) {
+
+        return (
+            task.id !== editingTaskId &&
+            task.text.toLowerCase() === newText.toLowerCase()
+        );
+
+    });
+
+    if (duplicateTask) {
+
+        alert("You already have a task with this name.");
+
+        editTaskInput.focus();
+
+        return;
+
+    }
+
 
     const task = tasks.find(function (item) {
 
@@ -492,6 +517,35 @@ document.addEventListener("keydown", function (event) {
 
 
 // ======================================
+// Show Empty State
+// ======================================
+
+function showEmptyState(title, message) {
+
+    const emptyState = document.createElement("li");
+
+    emptyState.classList.add("empty-state");
+
+    emptyState.innerHTML = `
+        <i
+            class="fa-solid fa-clipboard-list"
+            aria-hidden="true">
+        </i>
+
+        <h3>${title}</h3>
+
+        <p>${message}</p>
+    `;
+
+    taskList.appendChild(emptyState);
+
+}
+
+
+
+
+
+// ======================================
 // Display Tasks
 // ======================================
 
@@ -546,31 +600,19 @@ if (searchKeyword !== "") {
     // Empty State
     // ==================================
 
-    if (tasks.length === 0) {
+if (tasks.length === 0) {
 
-        const emptyState = document.createElement("li");
+    showEmptyState(
+        "No Tasks Yet",
+        "Add your first task above."
+    );
 
-        emptyState.classList.add("empty-state");
+    taskCount.textContent = "0 Tasks";
+    completedCount.textContent = "0 Completed";
+    pendingCount.textContent = "0 Pending";
 
-        emptyState.innerHTML = `
-            <i
-                class="fa-solid fa-clipboard-list"
-                aria-hidden="true">
-            </i>
-
-            <h3>No Tasks Yet</h3>
-
-            <p>Add your first task above.</p>
-        `;
-
-        taskList.appendChild(emptyState);
-
-        taskCount.textContent = "0 Tasks";
-        completedCount.textContent = "0 Completed";
-        pendingCount.textContent = "0 Pending";
-
-        return;
-    }
+    return;
+}
 
     // ==================================
     // Update Task Counter
@@ -597,37 +639,26 @@ pendingCount.textContent =
 
 if (filteredTasks.length === 0) {
 
-    const emptyState = document.createElement("li");
+    let message = "No tasks found.";
 
-    emptyState.classList.add("empty-state");
+    if (searchKeyword !== "") {
 
-let message = "No tasks found.";
+        message = `No tasks match "${searchKeyword}".`;
 
-if (searchKeyword !== "") {
+    } else if (currentFilter === "active") {
 
-    message = `No tasks match "${searchKeyword}".`;
+        message = "No active tasks.";
 
-} else if (currentFilter === "active") {
+    } else if (currentFilter === "completed") {
 
-    message = "No active tasks.";
+        message = "No completed tasks.";
 
-} else if (currentFilter === "completed") {
+    }
 
-    message = "No completed tasks.";
-
-}
-    emptyState.innerHTML = `
-        <i
-            class="fa-solid fa-clipboard-list"
-            aria-hidden="true">
-        </i>
-
-        <h3>${message}</h3>
-
-        <p>Try adding or completing a task.</p>
-    `;
-
-    taskList.appendChild(emptyState);
+    showEmptyState(
+        message,
+        "Try adding or completing a task."
+    );
 
     return;
 }
@@ -657,6 +688,8 @@ if (searchKeyword !== "") {
         // ==================================
 
         const completeBtn = document.createElement("button");
+
+        completeBtn.type = "button";
 
         completeBtn.classList.add("complete");
 
@@ -719,6 +752,8 @@ if (searchKeyword !== "") {
 
         const editBtn = document.createElement("button");
 
+        editBtn.type = "button";
+
         editBtn.classList.add("edit");
 
         editBtn.setAttribute(
@@ -740,6 +775,8 @@ if (searchKeyword !== "") {
         // ==================================
 
         const deleteBtn = document.createElement("button");
+
+        deleteBtn.type = "button";
 
         deleteBtn.classList.add("delete");
 
@@ -837,20 +874,3 @@ deleteModal.addEventListener("click", function (event) {
     }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
