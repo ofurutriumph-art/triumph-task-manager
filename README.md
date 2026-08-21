@@ -6,7 +6,7 @@ Triumph Task Manager helps users organize their daily tasks, track their progres
 
 ## 🚀 Live Demo
 
-Coming soon.
+[🚀 Live Demo](https://ofurutriumph-art.github.io/triumph-task-manager/)
 
 ## 📸 Preview
 
